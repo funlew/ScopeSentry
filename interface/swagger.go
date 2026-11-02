@@ -1,4 +1,4 @@
-package docs
+package apidocs
 
 // @title           ScopeSentry API
 // @version         1.0

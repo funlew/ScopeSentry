@@ -54,7 +54,7 @@ import (
 	scopesentrymcp "github.com/Autumn-27/ScopeSentry/internal/mcp"
 	redisLogSubscriber "github.com/Autumn-27/ScopeSentry/internal/services/redis_log_subscriber"
 
-	"github.com/Autumn-27/ScopeSentry/docs"
+	"github.com/Autumn-27/ScopeSentry/interface"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -111,7 +111,7 @@ func main() {
 	pngFS, _ := fs.Sub(embeddedFiles, "static/png")
 
 	// 注册 Swagger 路由（在静态文件之前，避免冲突）
-	docs.SwaggerInfo.BasePath = "/api"
+	apidocs.SwaggerInfo.BasePath = "/api"
 	router.GET("/api/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 注册静态资源路由（/assets 映射到 static/assets 目录）

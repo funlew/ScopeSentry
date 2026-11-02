@@ -53,7 +53,7 @@ docker-compose -f scan-docker-compose.yml up -d
 
 ## 插件流程图
 
-<img src="流程图.svg"/>
+<img src="docs/流程图.svg"/>
 
 
 ## 目前功能

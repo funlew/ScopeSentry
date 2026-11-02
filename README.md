@@ -57,7 +57,7 @@ docker-compose -f scan-docker-compose.yml up -d
 
 ## Plugin Flowchart
 
-<img src="流程图.svg"/>
+<img src="docs/流程图.svg"/>
 
 ## Current Features
 - Plugin System (Add any tool through extension)
