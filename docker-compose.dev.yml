@@ -93,6 +93,8 @@ services:
       - go-build:/root/.cache/go-build
       # 运行根：config.yaml / PASSWORD / PLUGINKEY / files / uploads / images
       - ./.dev-data:/data
+    networks:
+      - scopesentry-dev
 
 volumes:
   mongo-data:
