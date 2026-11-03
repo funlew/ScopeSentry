@@ -1,0 +1,8 @@
+# 构建上下文瘦身；不要排除 dist/，线上 dockerfile 依赖其中的二进制
+.git
+.github
+.idea
+frontend
+docs
+.dev-data
+*.log

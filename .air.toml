@@ -1,0 +1,25 @@
+# air 热重载配置，仅用于本地开发（Dockerfile.dev）
+# 二进制输出到 /data：服务端以可执行文件所在目录为运行根，
+# config.yaml / PASSWORD / files / uploads / images 都在那里生成。
+root = "/src"
+tmp_dir = "/data/.air-tmp"
+
+[build]
+  # 必须指定单文件：cmd/main/basic_usage.go 也有 func main()
+  cmd = "go -C /src build -o /data/ScopeSentry ./cmd/main/main.go"
+  bin = "/data/ScopeSentry"
+  full_bin = "/usr/local/bin/run-server.sh"
+  delay = 1000
+  stop_on_error = true
+  send_interrupt = true
+  kill_delay = "5s"
+  exclude_unchanged = true
+  include_ext = ["go", "yaml", "yml", "json"]
+  exclude_regex = ["_test\\.go"]
+  exclude_dir = [
+    "frontend", "cmd/main/static", "docs", "dist", "uploads",
+    "data", ".dev-data", "plugin-template", ".git", ".idea"
+  ]
+
+[log]
+  time = true

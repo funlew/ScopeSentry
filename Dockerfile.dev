@@ -1,0 +1,39 @@
+# 服务端本地开发镜像：容器内编译 + air 热重载 + delve 远程调试
+# 用法见 docs/LOCAL-DEV.md
+FROM golang:1.24-bookworm
+
+ARG GOPROXY=https://goproxy.cn,direct
+# 固定在 Go 1.24 下可编译的版本，升级前先确认其 go.mod 的 go 指令
+ARG AIR_VERSION=v1.61.7
+ARG DLV_VERSION=v1.25.2
+
+ENV GOPROXY=${GOPROXY} \
+    CGO_ENABLED=0 \
+    LANG=C.UTF-8 \
+    TZ=Asia/Shanghai
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        git \
+        unzip \
+        tzdata \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo 'Asia/Shanghai' > /etc/timezone
+
+# GOSUMDB=off 只作用于本层：这些工具不进项目依赖，避免受 checksum DB 网络影响
+RUN GOSUMDB=off GOTOOLCHAIN=local go install github.com/air-verse/air@${AIR_VERSION} \
+    && GOSUMDB=off GOTOOLCHAIN=local go install github.com/go-delve/delve/cmd/dlv@${DLV_VERSION} \
+    && cp /go/bin/air /usr/local/bin/air \
+    && cp /go/bin/dlv /usr/local/bin/dlv
+
+# 服务端以「可执行文件所在目录」为运行根（config.yaml / PASSWORD / files / uploads / images 都落在这里），
+# 二进制放在 /data 并以其为工作目录，宿主通过 ./.dev-data 持久化
+COPY dev/run-server.sh /usr/local/bin/run-server.sh
+RUN chmod +x /usr/local/bin/run-server.sh && mkdir -p /data
+
+WORKDIR /src
+EXPOSE 8082 2345
+
+CMD ["air", "-c", "/src/.air.toml"]
