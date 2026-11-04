@@ -55,6 +55,14 @@ cd ScopeSentry-Scan/build
 docker-compose -f scan-docker-compose.yml up -d
 ```
 
+**Local development (hot reload + debugging)**
+
+```
+docker compose -f docker-compose.dev.yml up -d --build
+```
+
+See [docs/LOCAL-DEV.md](docs/LOCAL-DEV.md).
+
 ## Plugin Flowchart
 
 <img src="docs/流程图.svg"/>

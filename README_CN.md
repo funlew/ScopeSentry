@@ -50,6 +50,12 @@ cd ScopeSentry-Scan/build
 docker-compose -f scan-docker-compose.yml up -d
 ```
 
+**本地开发（源码热重载 + 断点调试）**
+```
+docker compose -f docker-compose.dev.yml up -d --build
+```
+详见 [docs/LOCAL-DEV.md](docs/LOCAL-DEV.md)。
+
 
 ## 插件流程图
 
